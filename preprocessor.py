@@ -13,7 +13,9 @@ def preprocess(data):
     df = pd.DataFrame({'message_date': dates, 'user_message': messages})
     df['message_date'] = pd.to_datetime(df['message_date'], format='%d/%m/%Y, %H:%M - ')
 
+    df['user_message'] = df['user_message'].astype(str)
     df['user'] = df['user_message'].str.extract('([^:]+):', expand=False).fillna('group_notification')
+
     df['message'] = df['user_message'].str.split(': ').str[1]
 
     df.drop(columns=['user_message'], inplace=True)
